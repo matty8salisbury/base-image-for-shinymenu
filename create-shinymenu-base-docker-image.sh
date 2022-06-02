@@ -67,15 +67,16 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
 
     sudo usermod -a -G docker $vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com
 
-    #B. create mydocker directory and cd into into
-    
-    sudo mkdir mydocker
-    cd mydocker
-
-    #C. download dockerfile from github
+    #B. download dockerfile from github
 
     git clone https://github.com/matty8salisbury/base-image-for-shinymenu.git
-
+    
+    #C. create mydocker directory and cd into into
+    
+    sudo mkdir mydocker
+    sudo cp ~/base-image-for-shinymenu/Dockerfile ~/mydocker
+    cd mydocker
+    
     #D. build docker image
 
     sudo docker build -t shinymenu_base_image .
