@@ -4,7 +4,7 @@ FROM ubuntu:20.04
 
 # LABEL about the custom image
 LABEL maintainer="matt@shinymenu.online"
-LABEL "This is the base image for shiny menu. Includes DOCKER, R BASE, SHINY, REQUIRED R PACKAGES, MYSQL, LIBMARIADB, NGINX AND CERTBOT" 
+LABEL description="This is the base image for shiny menu. Includes DOCKER, R BASE, SHINY, REQUIRED R PACKAGES, MYSQL, LIBMARIADB, NGINX AND CERTBOT" 
 
 ENV TZ=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
