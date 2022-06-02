@@ -1,4 +1,4 @@
-#! bin/bash
+#!/bin/bash
 
 #ABOUT:
 #Script to generate the base docker image for the simplets implementation of the shinymenu app suite
