@@ -25,16 +25,7 @@ gcloud services enable cloudresourcemanager.googleapis.com
 #MACHINE TYPE EC2-MED
 #ZONE europe-west2-c
 
-#2.1 Create service account
-gcloud iam service-accounts create vm1-sa-000 --display-name "shiny-menu-vm1-sa-000-service-account"
-
-#2.2 Assign appropriate roles to the service account
-gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/compute.instanceAdmin.v1
-gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/iam.serviceAccountUser 
-gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.objectViewer 
-gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.admin
-
-#2.3 CREATE VM WITH THE SERVICE ACCOUNT SPECIFIED
+#CREATE VM WITH THE SERVICE ACCOUNT SPECIFIED
 gcloud compute instances create shinymenu-build-base-docker-image-vm \
 --project=shinymenu-test-01 \
 --zone=europe-west2-c \
@@ -89,6 +80,7 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
     #sudo docker tag shinymenu_base_image matty8salisbury/shinymenu_base_image
     #sudo docker push matty8salisbury/shinymenu_base_image
     '
+
 #3. DELETE VM
 
-gcloud compute instances delete shinymenu-build-base-docker-image-vm --zone=europe-west2-c
+#gcloud compute instances delete shinymenu-build-base-docker-image-vm --zone=europe-west2-c
