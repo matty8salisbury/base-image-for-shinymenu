@@ -69,7 +69,7 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
 
     #B. create mydocker directory and cd into into
     
-    mkdir mydocker
+    sudo mkdir mydocker
     cd mydocker
 
     #C. download dockerfile from github
