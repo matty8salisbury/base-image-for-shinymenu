@@ -8,6 +8,9 @@ LABEL version="0.1"
 LABEL description="This is custom Docker Image for \
 the base image for shiny menu. Includes DOCKER, R BASE, SHINY, REQUIRED R PACKAGES, MYSQL, LIBMARIADB, NGINX AND CERTBOT" 
 
+ENV TZ=Europe/London
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 #ARG DEBIAN_FRONTEND=noninteractive
 
 #1. INSTALL DOCKER
