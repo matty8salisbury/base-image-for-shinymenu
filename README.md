@@ -17,3 +17,8 @@ To implement the simplest version of the shinymenu suite, create (or use the ava
   put apps into the shiny server location
   build new image for specific venue
   run image
+
+To run:
+git clone https://github.com/matty8salisbury/base-image-for-shinymenu.git
+cd base-image-for-shinymenu
+./create-shinymenu-base-docker-image.sh
