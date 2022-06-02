@@ -41,7 +41,7 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
 --machine-type=e2-medium \
 --service-account=vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com \
 --scopes=https://www.googleapis.com/auth/cloud-platform \
---image=projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20220419
+--image=projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20220419 \
 --metadata startup-script='
     !# bin/bash
     
