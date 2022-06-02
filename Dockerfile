@@ -66,8 +66,3 @@ RUN R -e "install.packages(c('shiny', 'shinyWidgets' ,'DT', 'RMariaDB', 'DBI', '
 
 #6. INSTALL NGINX ON VM
 RUN apt install nginx -y
-
-#7. INSTALL CERTBOT ON VM
-RUN apt-get install snap -y
-RUN snap install --classic certbot
-RUN ln -s /snap/bin/certbot /usr/bin/certbot
