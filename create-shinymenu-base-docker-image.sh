@@ -25,7 +25,19 @@ gcloud services enable cloudresourcemanager.googleapis.com
 #MACHINE TYPE EC2-MED
 #ZONE europe-west2-c
 
-#CREATE VM WITH THE SERVICE ACCOUNT SPECIFIED
+#2.1 Create service account
+
+gcloud iam service-accounts create vm1-sa-000 --display-name "shiny-menu-vm1-sa-000-service-account"
+
+#2.2 Assign appropriate roles to the service account
+
+gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/compute.instanceAdmin.v1
+gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/iam.serviceAccountUser 
+gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.objectViewer 
+gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.admin
+
+#2.3 CREATE VM WITH THE SERVICE ACCOUNT SPECIFIED
+
 gcloud compute instances create shinymenu-build-base-docker-image-vm \
 --project=shinymenu-test-01 \
 --zone=europe-west2-c \
@@ -53,7 +65,7 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
     sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
     sudo docker run hello-world
 
-    sudo usermod -a -G docker $vm1-sa-001@shinymenu-test-01.iam.gserviceaccount.com
+    sudo usermod -a -G docker $vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com
 
     #B. create mydocker directory and cd into into
     
