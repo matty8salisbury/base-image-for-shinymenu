@@ -52,12 +52,12 @@ RUN apt install --no-install-recommends software-properties-common dirmngr -y
 # add the signing key (by Michael Rutter) for these repos
 # To verify key, run gpg --show-keys /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc 
 # Fingerprint: E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
 RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 RUN apt install --no-install-recommends r-base -y
 
-RUN add-apt-repository ppa:c2d4u.team/c2d4u4.0+
+RUN add-apt-repository ppa:c2d4u.team/c2d4u4.0+ -y
 RUN apt install --no-install-recommends r-cran-rstan -y
 RUN apt install --no-install-recommends r-cran-tidyverse -y
 
@@ -78,5 +78,5 @@ RUN R -e "install.packages(c('shiny', 'shinyWidgets' ,'DT', 'RMariaDB', 'DBI', '
 RUN apt install nginx -y
 
 #7. INSTALL CERTBOT ON VM
-RUN snap install --classic certbot -y
+RUN snap install --classic certbot
 RUN ln -s /snap/bin/certbot /usr/bin/certbot
