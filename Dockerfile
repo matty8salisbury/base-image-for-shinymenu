@@ -4,9 +4,7 @@ FROM ubuntu:20.04
 
 # LABEL about the custom image
 LABEL maintainer="matt@shinymenu.online"
-LABEL version="0.1"
-LABEL description="This is custom Docker Image for \
-the base image for shiny menu. Includes DOCKER, R BASE, SHINY, REQUIRED R PACKAGES, MYSQL, LIBMARIADB, NGINX AND CERTBOT" 
+LABEL "This is the base image for shiny menu. Includes DOCKER, R BASE, SHINY, REQUIRED R PACKAGES, MYSQL, LIBMARIADB, NGINX AND CERTBOT" 
 
 ENV TZ=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -28,23 +26,10 @@ RUN echo \
   $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 RUN apt-get update && apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
-RUN docker run hello-world
 
 #2. INSTALL MARIADB ON VM
 
 RUN apt-get update && apt-get install mariadb-server -y
-
-# Make sure that NOBODY can access the server without a password
-RUN mysql -e "UPDATE mysql.user SET Password = PASSWORD('ciderBath271?') WHERE User = 'root'"
-# Kill the anonymous users
-RUN mysql -e "DROP USER ''@'localhost'"
-# Because our hostname varies we'll use some Bash magic here.
-RUN mysql -e "DROP USER ''@'$(hostname)'"
-# Kill off the demo database
-RUN mysql -e "DROP DATABASE test"
-# Make our changes take effect
-RUN mysql -e "FLUSH PRIVILEGES"
-# Any subsequent tries to run queries this way will get access denied because lack of usr/pwd param
 
 #3. INSTALL R
 
@@ -56,7 +41,8 @@ RUN apt install --no-install-recommends software-properties-common dirmngr -y
 # add the signing key (by Michael Rutter) for these repos
 # To verify key, run gpg --show-keys /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc 
 # Fingerprint: E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+RUN apt-get install wget -y
+RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
 RUN add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 RUN apt install --no-install-recommends r-base -y
