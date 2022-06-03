@@ -41,7 +41,7 @@ gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount
 gcloud compute instances create shinymenu-build-base-docker-image-vm \
 --project=shinymenu-test-01 \
 --zone=europe-west2-c \
---machine-type=e2-medium \
+--machine-type=e2-standard-4 \
 --service-account=vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com \
 --scopes=https://www.googleapis.com/auth/cloud-platform \
 --image=projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20220419 \
