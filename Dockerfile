@@ -58,7 +58,7 @@ RUN su - \
 -c "R -e \"install.packages('shiny', repos='https://cran.rstudio.com/')\""
 RUN apt-get install gdebi-core -y
 RUN wget https://download3.rstudio.org/ubuntu-18.04/x86_64/shiny-server-1.5.18.987-amd64.deb
-RUN gdebi shiny-server-1.5.18.987-amd64.deb
+RUN gdebi shiny-server-1.5.18.987-amd64.deb -n
 
 #5. INSTALL REQUIRED PACKAGES
 RUN apt-get update && apt-get install libmariadb-dev -y
