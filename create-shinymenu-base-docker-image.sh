@@ -104,4 +104,4 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
 
 #3. DELETE VM
 
-gcloud compute instances delete shinymenu-build-base-docker-image-vm --zone=europe-west2-c
+gcloud compute instances delete shinymenu-build-base-docker-image-vm --zone=europe-west2-c -q
