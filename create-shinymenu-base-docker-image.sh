@@ -40,7 +40,7 @@ gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount
 gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/iam.serviceAccountUser 
 gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.objectViewer 
 gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.admin
-gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.legacyBucketWriter
+gcloud artifacts repositories add-iam-policy-binding shinymenu-docker-repo --location europe-west2 --member=serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role=roles/artifactregistry.writer
 
 #2.3 CREATE VM WITH THE SERVICE ACCOUNT SPECIFIED
 
@@ -92,8 +92,8 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
     
     #E. push docker image to gcp container repo
 
-    sudo docker tag shinymenu_base_image gcr.io/shinymenu-test-01/shinymenu-docker-repo/shinymenu_base_image:tag1
-    sudo docker push gcr.io/shinymenu-test-01/shinymenu-docker-repo/shinymenu_base_image:tag1
+    sudo docker tag shinymenu_base_image europe-west2-docker.pkg.dev/shinymenu-test-01/shinymenu-docker-repo/shinymenu_base_image:tag1
+    sudo docker push europe-west2-docker.pkg.dev/shinymenu-test-01/shinymenu-docker-repo/shinymenu_base_image:tag1
     
     #f. push docker image to dockerhub
 
