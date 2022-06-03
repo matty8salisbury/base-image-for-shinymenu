@@ -19,6 +19,11 @@ gcloud services enable containerregistry.googleapis.com
 gcloud services enable servicenetworking.googleapis.com
 gcloud services enable sqladmin.googleapis.com
 gcloud services enable cloudresourcemanager.googleapis.com
+gcloud services enable artifactregistry.googleapis.com
+
+# CREATE AN ARTIFACT REGISTRY TO STORE DOCKER IMAGE
+gcloud artifacts repositories create shinymenu-docker-repo --repository-format=docker \
+--location=europe-west2 --description="Docker repository"
 
 #2. CREATE VM
 #TAG WITH NAME TO ALLOW FIREWALL RULES TO BE APPLIED IF NEEDED
@@ -35,6 +40,7 @@ gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount
 gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/iam.serviceAccountUser 
 gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.objectViewer 
 gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.admin
+gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.legacyBucketWriter
 
 #2.3 CREATE VM WITH THE SERVICE ACCOUNT SPECIFIED
 
@@ -66,7 +72,10 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
     sudo docker run hello-world
 
     sudo usermod -a -G docker $vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com
-
+    
+    #configure docker for use with google cloud artifacts repository
+    gcloud auth configure-docker europe-west2-docker.pkg.dev -q
+    
     #B. download dockerfile from github
 
     git clone https://github.com/matty8salisbury/base-image-for-shinymenu.git
@@ -83,8 +92,8 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
     
     #E. push docker image to gcp container repo
 
-    sudo docker tag shinymenu_base_image gcr.io/shinymenu-test-01/shinymenu_base_image
-    sudo docker push gcr.io/shinymenu-test-01/shinymenu_base_image
+    sudo docker tag shinymenu_base_image gcr.io/shinymenu-test-01/shinymenu-docker-repo/shinymenu_base_image:tag1
+    sudo docker push gcr.io/shinymenu-test-01/shinymenu-docker-repo/shinymenu_base_image:tag1
     
     #f. push docker image to dockerhub
 
