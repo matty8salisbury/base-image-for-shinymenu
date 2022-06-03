@@ -32,15 +32,15 @@ gcloud artifacts repositories create shinymenu-docker-repo --repository-format=d
 
 #2.1 Create service account
 
-gcloud iam service-accounts create vm1-sa-000 --display-name "shiny-menu-vm1-sa-000-service-account"
+gcloud iam service-accounts create vm1-sa-002 --display-name "shiny-menu-vm1-sa-002-service-account"
 
 #2.2 Assign appropriate roles to the service account
 
-gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/compute.instanceAdmin.v1
-gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/iam.serviceAccountUser 
-gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.objectViewer 
-gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.admin
-gcloud artifacts repositories add-iam-policy-binding shinymenu-docker-repo --location europe-west2 --member=serviceAccount:vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com --role=roles/artifactregistry.writer
+gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-002@shinymenu-test-01.iam.gserviceaccount.com --role roles/compute.instanceAdmin.v1
+gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-002@shinymenu-test-01.iam.gserviceaccount.com --role roles/iam.serviceAccountUser 
+gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-002@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.objectViewer 
+gcloud projects add-iam-policy-binding shinymenu-test-01 --member serviceAccount:vm1-sa-002@shinymenu-test-01.iam.gserviceaccount.com --role roles/storage.admin
+gcloud artifacts repositories add-iam-policy-binding shinymenu-docker-repo --location europe-west2 --member=serviceAccount:vm1-sa-002@shinymenu-test-01.iam.gserviceaccount.com --role=roles/artifactregistry.writer
 
 #2.3 CREATE VM WITH THE SERVICE ACCOUNT SPECIFIED
 
@@ -48,7 +48,7 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
 --project=shinymenu-test-01 \
 --zone=europe-west2-c \
 --machine-type=e2-standard-4 \
---service-account=vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com \
+--service-account=vm1-sa-002@shinymenu-test-01.iam.gserviceaccount.com \
 --scopes=https://www.googleapis.com/auth/cloud-platform \
 --image=projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20220419 \
 --metadata startup-script='!# bin/bash
@@ -71,7 +71,7 @@ gcloud compute instances create shinymenu-build-base-docker-image-vm \
     sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
     sudo docker run hello-world
 
-    sudo usermod -a -G docker $vm1-sa-000@shinymenu-test-01.iam.gserviceaccount.com
+    sudo usermod -a -G docker $vm1-sa-002@shinymenu-test-01.iam.gserviceaccount.com
     
     #configure docker for use with google cloud artifacts repository
     gcloud auth configure-docker europe-west2-docker.pkg.dev -q
